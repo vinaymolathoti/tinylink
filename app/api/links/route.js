@@ -50,3 +50,12 @@ export async function GET() {
   }
 }
 
+export async function DELETE(request, { params }) {
+  const { code } = params;
+
+  await prisma.link.delete({
+    where: { code },
+  });
+
+  return new Response(null, { status: 204 });
+}

@@ -107,7 +107,10 @@ useEffect(() => {
         <td className="p-2">
           <button
             onClick={async () => {
-              const res = await fetch(`/api/links/${link.code}`, { method: "DELETE" });
+              const res = await fetch(`${window.location.origin}/api/links/${link.code}`, {
+  method: "DELETE",
+});
+
               if (res.ok) loadLinks();
             }}
             className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
