@@ -38,17 +38,19 @@ export async function POST(req) {
 }
 
 export async function GET() {
-  try {
-    const links = await prisma.link.findMany({
-      orderBy: { createdAt: "desc" },
-    });
+  const links = await prisma.link.findMany({
+    select: {
+      id: true,
+      code: true,   // 👈 Add this
+      longUrl: true,
+      clicks: true,
+      lastClicked: true,
+    },
+  });
 
-    return new Response(JSON.stringify(links), { status: 200 });
-  } catch (error) {
-    console.error(error);
-    return new Response(JSON.stringify({ error: "Server error" }), { status: 500 });
-  }
+  return new Response(JSON.stringify(links), { status: 200 });
 }
+
 
 export async function DELETE(request, { params }) {
   const { code } = params;
