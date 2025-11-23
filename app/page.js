@@ -106,13 +106,18 @@ useEffect(() => {
         <td className="p-2">{link.clicks}</td>
         <td className="p-2">
           <button
-            onClick={async () => {
-              const res = await fetch(`${window.location.origin}/api/links/${link.code}`, {
-  method: "DELETE",
-});
+           onClick={async () => {
+  const res = await fetch(`${window.location.origin}/api/links/${link.code}`, {
+    method: "DELETE",
+  });
 
-              if (res.ok) loadLinks();
-            }}
+  const data = await res.json().catch(() => ({}));
+  console.log("DELETE RESPONSE:", res.status, data);
+
+  if (res.ok) loadLinks();
+  else alert("Delete failed: " + (data.error || "unknown error"));
+}}
+
             className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
           >
             Delete
