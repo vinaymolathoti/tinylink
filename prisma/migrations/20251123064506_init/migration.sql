@@ -1,11 +1,13 @@
 -- CreateTable
 CREATE TABLE "Link" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "id" SERIAL NOT NULL,
     "code" TEXT NOT NULL,
     "longUrl" TEXT NOT NULL,
     "clicks" INTEGER NOT NULL DEFAULT 0,
-    "lastClicked" DATETIME,
-    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+    "lastClicked" TIMESTAMP(3),
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Link_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
