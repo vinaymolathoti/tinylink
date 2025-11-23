@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/prisma";
 const prisma = new PrismaClient();
 
 export async function POST(req) {
@@ -53,9 +53,9 @@ export async function GET() {
 export async function DELETE(request, { params }) {
   const { code } = params;
 
-  await prisma.link.delete({
+  const deleted = await prisma.link.delete({
     where: { code },
   });
 
-  return new Response(null, { status: 204 });
+  return new Response(JSON.stringify({ success: true }), { status: 200 });
 }
