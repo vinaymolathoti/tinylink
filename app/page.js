@@ -95,37 +95,65 @@ useEffect(() => {
     </tr>
   </thead>
   <tbody>
-    {links.map((link) => (
-      <tr key={link.id} className="border text-center">
-        <td className="p-2">
-          <a href={`/code/${link.code}`} className="text-blue-600 underline">
-            {link.code}
-          </a>
-        </td>
-        <td className="p-2 text-left truncate max-w-[200px]">{link.longUrl}</td>
-        <td className="p-2">{link.clicks}</td>
-        <td className="p-2">
-          <button
-           onClick={async () => {
-  const res = await fetch(`${window.location.origin}/api/links/${link.code}`, {
-    method: "DELETE",
-  });
+  {links.map((link) => (
+    <tr key={link.id} className="border text-center">
 
-  const data = await res.json().catch(() => ({}));
-  console.log("DELETE RESPONSE:", res.status, data);
+      {/* Code column → clicks to stats page */}
+      <td className="p-2">
+        <a href={`/code/${link.code}`} className="text-blue-600 underline">
+          {link.code}
+        </a>
+      </td>
 
-  if (res.ok) loadLinks();
-  else alert("Delete failed: " + (data.error || "unknown error"));
-}}
+      {/* Long URL */}
+      <td className="p-2 text-left truncate max-w-[200px]">
+        {link.longUrl}
+      </td>
 
-            className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
-          >
-            Delete
-          </button>
-        </td>
-      </tr>
-    ))}
-  </tbody>
+      {/* Click count */}
+      <td className="p-2">{link.clicks}</td>
+
+      {/* Actions */}
+      <td className="p-2 space-x-2">
+        {/* Visit Short URL */}
+        <a
+          href={`/${link.code}`}
+          target="_blank"
+          className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"
+        >
+          Visit
+        </a>
+
+        {/* Stats page */}
+        <a
+          href={`/code/${link.code}`}
+          className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
+        >
+          Stats
+        </a>
+
+        {/* Delete button */}
+        <button
+          onClick={async () => {
+            const res = await fetch(`${window.location.origin}/api/links/${link.code}`, {
+              method: "DELETE",
+            });
+            if (res.ok) loadLinks();
+            else {
+              const data = await res.json();
+              alert("Delete failed: " + (data.error || "unknown error"));
+            }
+          }}
+          className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
+        >
+          Delete
+        </button>
+      </td>
+
+    </tr>
+  ))}
+</tbody>
+
 </table>
 
 
