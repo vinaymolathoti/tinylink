@@ -9,7 +9,7 @@ export async function DELETE(request, { params }) {
     const { code } = params;
 
     const deleted = await prisma.link.delete({
-      where: { code },
+      where: { code }
     });
 
     return new Response(
