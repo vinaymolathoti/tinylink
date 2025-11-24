@@ -7,11 +7,15 @@ export const dynamic = "force-dynamic"; // ensure server execution on Vercel
 export async function DELETE(request, { params }) {
   try {
     const { code } = params;
-
+    if (!code) {
+      return new Response(
+        JSON.stringify({ error: "Missing code parameter" }),
+        { status: 400 }
+      );
+    }
     const deleted = await prisma.link.delete({
       where: { code }
     });
-
     return new Response(
       JSON.stringify({ success: true, deleted }),
       { status: 200 }
